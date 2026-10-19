@@ -1,0 +1,48 @@
+# Deploys ONLY the resident-facing site files to GitHub Pages.
+# Admin/seed tools and the backend stay out of the published site.
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble site (resident-facing files only)
+        shell: bash
+        run: |
+          mkdir -p _site
+          cp -r \
+            index.html login.html register.html choose-room.html \
+            dashboard.html complaint.html tracking.html management.html \
+            404.html favicon.svg manifest.webmanifest robots.txt \
+            css js assets \
+            _site/
+          # Belt-and-braces: never publish admin tooling even if it
+          # accidentally ends up under a copied directory.
+          rm -f _site/seed-tool.html _site/seed-*.js _site/verify-seed.js \
+                _site/migrate-*.js
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

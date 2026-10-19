@@ -1,0 +1,2 @@
+[serve-local] Frontend: http://localhost:8080
+[serve-local] Make sure backend is running: http://localhost:4000
