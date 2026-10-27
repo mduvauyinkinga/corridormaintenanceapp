@@ -114,6 +114,13 @@ export default function LoginScreen({ navigation }) {
               Register
             </Text>
           </View>
+
+          <View style={styles.switchRow}>
+            <Text style={styles.switchText}>Forgot your password? </Text>
+            <Text style={styles.link} onPress={() => navigation.navigate("ForgotPassword")}>
+              Reset it
+            </Text>
+          </View>
         </Card>
       </ScrollView>
     </KeyboardAvoidingView>

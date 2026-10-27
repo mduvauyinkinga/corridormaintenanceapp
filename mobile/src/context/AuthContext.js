@@ -37,6 +37,8 @@ import {
   signIn as signInService,
   signOutUser,
   subscribeToAuthState,
+  forgotPassword,
+  resetPassword,
 } from "../services/authService";
 import { isOfflineError, getErrorMessage } from "../utils/errors";
 
@@ -118,6 +120,16 @@ export function AuthProvider({ children }) {
   );
 
   /** Sign out (js/auth.js logout). */
+  /** Request a password-reset link for the given email. */
+  const requestPasswordReset = useCallback(async (email) => {
+    return forgotPassword(email);
+  }, []);
+
+  /** Set a new password using a one-time reset token. */
+  const submitPasswordReset = useCallback(async (token, password) => {
+    return resetPassword(token, password);
+  }, []);
+
   const signOut = useCallback(async () => {
     await signOutUser();
     setProfile(null);
@@ -140,8 +152,10 @@ export function AuthProvider({ children }) {
       signIn,
       register,
       signOut,
+      requestPasswordReset,
+      submitPasswordReset,
     }),
-    [status, user, profile, profileError, refreshProfile, signIn, register, signOut]
+    [status, user, profile, profileError, refreshProfile, signIn, register, signOut, requestPasswordReset, submitPasswordReset]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

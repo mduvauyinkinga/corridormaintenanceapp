@@ -5,7 +5,7 @@
  * Auth). Keeps the SAME exported names/signatures the AuthContext and
  * screens already use, so nothing else changes:
  *   subscribeToAuthState, getCurrentUser, getUserProfile, signIn,
- *   registerResident, signOutUser.
+ *   registerResident, signOutUser, forgotPassword, resetPassword.
  *
  * NOTE: all mobile data access (rooms, complaints, notes, timeline,
  * announcements, management) runs on this same backend — there is no
@@ -106,6 +106,30 @@ export async function registerResident({ fullName, studentNumber, email, passwor
   cachedUser = data.user;
   notify();
   return data.user.uid;
+}
+
+/**
+ * Request a password-reset link for the given email. The backend sends the
+ * link by email (or logs it in dev mode). Returns the server's response.
+ */
+export async function forgotPassword(email) {
+  return api("/auth/forgot-password", {
+    method: "POST",
+    body: { email },
+    auth: false,
+  });
+}
+
+/**
+ * Set a new password using a one-time reset token. Returns the server's
+ * response. On success the caller should navigate to the login screen.
+ */
+export async function resetPassword(token, password) {
+  return api("/auth/reset-password", {
+    method: "POST",
+    body: { token, password },
+    auth: false,
+  });
 }
 
 /**
