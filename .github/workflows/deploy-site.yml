@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p _site
           cp -r \
-            index.html login.html register.html choose-room.html \
+            index.html login.html register.html forgot-password.html reset-password.html choose-room.html \
             dashboard.html complaint.html tracking.html management.html \
             404.html favicon.svg manifest.webmanifest robots.txt \
             css js assets \
