@@ -143,5 +143,48 @@ router.post("/release-orphans", async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/admin/reset-users — erase every resident user and all their
+ * data (complaints cascade-delete), then free every bed. The management
+ * account is preserved. Intended for a fresh start so residents must
+ * re-register.
+ * Returns { deletedUsers: <n>, freedUnits: <n> }.
+ */
+router.post("/reset-users", async (req, res, next) => {
+  try {
+    const before = await queryRow(
+      "SELECT COUNT(*)::int AS n FROM users WHERE role <> 'management'"
+    );
+    const beforeCount = before ? before.n : 0;
+
+    if (beforeCount === 0) {
+      return res.json({
+        deletedUsers: 0,
+        freedUnits: 0,
+        message: "No resident users to delete.",
+      });
+    }
+
+    const deleted = await query(
+      "DELETE FROM users WHERE role <> 'management'"
+    );
+
+    const freed = await query(
+      `UPDATE units
+        SET occupied = FALSE,
+            resident_id = NULL
+       WHERE occupied = TRUE OR resident_id IS NOT NULL`
+    );
+
+    res.json({
+      deletedUsers: deleted.rowCount || 0,
+      freedUnits: freed.rowCount || 0,
+      message: `Reset complete: ${deleted.rowCount} resident user(s) removed, ${freed.rowCount} bed(s) freed.`,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;
 
