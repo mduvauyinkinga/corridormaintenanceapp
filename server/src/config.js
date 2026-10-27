@@ -25,6 +25,19 @@ const config = {
   // active queue (archived=TRUE) and before it is hard-deleted.
   archiveAfterDays: parseInt(process.env.ARCHIVE_AFTER_DAYS || "14", 10),
   deleteAfterDays: parseInt(process.env.DELETE_AFTER_DAYS || "180", 10),
+
+  // SMTP for password-reset emails. Leave SMTP_HOST empty in dev to log
+  // reset links to the console instead of sending real email.
+  smtpHost: process.env.SMTP_HOST || "",
+  smtpPort: parseInt(process.env.SMTP_PORT || "587", 10),
+  smtpSecure: process.env.SMTP_SECURE || "false",
+  smtpUser: process.env.SMTP_USER || "",
+  smtpPass: process.env.SMTP_PASS || "",
+  smtpFrom: process.env.SMTP_FROM || "",
+
+  // Base URL of the website (where reset-password.html lives). Used to build
+  // the reset link emailed to residents. Override for production.
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:4000",
 };
 
 // Throw a clear error when a required variable is missing.
