@@ -4,7 +4,7 @@
  */
 /**
  * api.js
- * ------------------------------------------------------------------
+ * -----------------------------------------------------------------
  * Thin HTTP client for the self-coded backend (replaces the Firebase
  * SDK for auth/data calls).
  *
@@ -72,7 +72,7 @@ export async function api(collection, method, docId = null, data = null) {
   const db = firebase.firestore();
   const user = firebase.auth().currentUser;
   let token = null;
-  
+
   if (user) {
     try {
       token = await user.getIdToken();
@@ -80,9 +80,9 @@ export async function api(collection, method, docId = null, data = null) {
       console.error("Failed to get user token:", e);
     }
   }
-  
+
   let ref = db.collection(collection);
-  
+
   if (method === 'get' && !docId) {
     // Get all documents in collection
     const snapshot = await ref.get();
@@ -92,7 +92,7 @@ export async function api(collection, method, docId = null, data = null) {
     });
     return results;
   }
-  
+
   if (method === 'get' && docId) {
     // Get single document
     const docSnap = await ref.doc(docId).get();
@@ -102,42 +102,42 @@ export async function api(collection, method, docId = null, data = null) {
       return null;
     }
   }
-  
+
   if (method === 'set') {
     if (!docId) throw new Error("Document ID required for set operation");
     if (!token) throw new Error("User must be authenticated for write operations");
-    
+
     // Add timestamp for tracking
     const dataWithTimestamp = {
       ...data,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
-    
+
     await ref.doc(docId).set(dataWithTimestamp, { merge: true });
     return { success: true };
   }
-  
+
   if (method === 'update') {
     if (!docId) throw new Error("Document ID required for update operation");
     if (!token) throw new Error("User must be authenticated for write operations");
-    
+
     const dataWithTimestamp = {
       ...data,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
-    
+
     await ref.doc(docId).update(dataWithTimestamp);
     return { success: true };
   }
-  
+
   if (method === 'delete') {
     if (!docId) throw new Error("Document ID required for delete operation");
     if (!token) throw new Error("User must be authenticated for write operations");
-    
+
     await ref.doc(docId).delete();
     return { success: true };
   }
-  
+
   throw new Error(`Unknown Firestore method: ${method}`);
 }
 
@@ -148,25 +148,21 @@ export async function api(collection, method, docId = null, data = null) {
  * @returns {Promise<object>} the parsed JSON response body.
  */
 
-
-
 /**
  * Resolve a photo URL returned by the backend. The server stores and
  * returns relative paths ("/api/complaints/:id/photos/:pid") so they
  * work on any host — the browser needs the API origin prefixed when the
  * page is not served from the same origin. Absolute URLs pass through.
+ * Also handles Firebase Storage URLs which are already absolute.
  */
 export function resolvePhotoURL(url) {
   if (!url) return url;
+  // If it's an absolute URL (has protocol like http:// or firebase.storage), pass through
   if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return url;
-  return `${API_BASE.slice(0, -"/api".length)}${url}`;
-}
-
-/** Resolve a photo URL - for Firebase Storage URLs, they're already absolute */
-export function resolvePhotoURL(url) {
-  if (!url) return url;
-  // Firebase Storage URLs are already absolute, so they pass through
-  if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return url;
+  // If it's a Firebase Storage URL, it's already absolute, so pass through
+  if (url.includes('firebase.storage.com') || url.includes('firebasestorage.googleapis.com')) {
+    return url;
+  }
   // If it's a relative path, prepend the current origin
   return `${window.location.origin}${url}`;
 }
