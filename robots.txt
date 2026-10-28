@@ -1,0 +1,6 @@
+# Corridor Hill Residence Maintenance System
+# Private student-residence tool. Keep admin pages out of public search results.
+User-agent: *
+Disallow: /management.html
+# Note: robots paths are root-relative per spec. This is NOT security —
+# server-side auth (JWT + role checks) remains the enforcement layer.

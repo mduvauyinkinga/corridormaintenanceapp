@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Submit a maintenance complaint at Corridor Hill Residence." />
+  <meta name="theme-color" content="#143c5c" />
+  <title>Submit Complaint | Corridor Hill</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="alternate icon" type="image/jpeg" href="assets/images/corridor-logo.jpeg" />
+  <link rel="apple-touch-icon" href="assets/images/corridor-logo.jpeg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div data-nav></div>
+
+  <main id="main-content" class="container dashboard">
+<div class="dashboard__header">
+      <div>
+        <h1 class="text-primary">Submit a Complaint</h1>
+        <p class="text-muted">Report one or more maintenance issues in your room.</p>
+      </div>
+    </div>
+
+    <div class="card constrain-sm">
+      <form id="complaint-form" class="form" novalidate>
+        <div id="form-alert" class="form__alert" role="alert" hidden></div>
+
+<!-- Category select -->
+        <div class="form__group">
+          <label class="form__label" for="category">Category <span class="form__required">*</span></label>
+          <select id="category" name="category" class="form__select" required>
+            <option value="">Select a category…</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Plumbing">Plumbing</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Appliances">Appliances</option>
+            <option value="Security">Security</option>
+            <option value="Windows & Doors">Windows &amp; Doors</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Other">Other</option>
+          </select>
+          <p class="form__error" data-error="category" role="alert"></p>
+        </div>
+
+        <!-- Issues checklist (rendered per category by js/complaints.js) -->
+        <fieldset class="form__group checkbox-fieldset">
+          <legend class="form__label">Select issue(s) <span class="form__required">*</span></legend>
+          <p class="form__hint" id="issues-hint">Choose a category first to see relevant issues.</p>
+          <div id="issues-list" class="checkbox-list" aria-live="polite"></div>
+          <p class="form__error" data-error="issues" role="alert"></p>
+        </fieldset>
+
+        <!-- Optional photos -->
+        <div class="form__group">
+          <label class="form__label" for="photos">Photo Attachments</label>
+          <input
+            id="photos"
+            name="photos"
+            class="form__input"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+          />
+          <p class="form__hint">
+            You can attach up to 5 images (JPG, PNG or WEBP). Each file must be 5&nbsp;MB or smaller
+            — photos are compressed automatically before upload. Tip: on your phone you can take a photo directly.
+          </p>
+          <p class="photo-count" id="photo-count" aria-live="polite" hidden></p>
+          <div id="photo-preview" class="photo-preview" aria-live="polite"></div>
+          <div id="upload-progress" class="upload-progress" hidden></div>
+          <p class="form__error" data-error="photos" role="alert"></p>
+        </div>
+
+        <!-- Optional notes -->
+        <div class="form__group">
+          <label class="form__label" for="notes">Additional Notes</label>
+          <textarea
+            class="form__input"
+            id="notes"
+            name="notes"
+            rows="4"
+            maxlength="1000"
+            placeholder="Provide any extra details about the issue(s)…"
+            aria-describedby="notes-count"
+          ></textarea>
+          <p class="form__hint" id="notes-count" aria-live="polite">0 / 1000</p>
+        </div>
+
+        <p class="form__hint" id="draft-status" role="status" aria-live="polite" hidden></p>
+
+        <div class="form__actions">
+          <button id="submit-complaint-btn" type="submit" class="btn btn--primary btn--block">
+            Submit Complaint
+          </button>
+          <button id="clear-draft-btn" type="button" class="btn btn--ghost btn--block">
+            Clear draft
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script type="module" src="js/complaints.js"></script>
+</body>
+</html>
