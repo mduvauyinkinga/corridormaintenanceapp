@@ -15,7 +15,6 @@
 import { api } from "./api.js";
 import { requireRole, warnIfSessionExpiring } from "./auth.js";
 import { renderNav } from "./nav.js";
-import { validateImageFile, prepareImageForUpload } from "./upload.js";
 import {
   setButtonLoading,
   showError,
@@ -25,6 +24,9 @@ import {
   toast,
   $,
 } from "./utils.js";
+// Photo upload helpers (validateImageFile, prepareImageForUpload) are
+// kept available if needed later, but photo submission is disabled until
+// storage costs can be afforded.
 
 const form = $("#complaint-form");
 const submitBtn = $("#submit-complaint-btn");
@@ -42,7 +44,7 @@ const notesInput = $("#notes");
 const notesCount = $("#notes-count");
 const draftStatus = $("#draft-status");
 
-// Files selected for upload (kept after preview rendering).
+// Photo upload disabled - selectedFiles always empty
 let selectedFiles = [];
 
 // Signed-in resident profile (from requireRole in init).

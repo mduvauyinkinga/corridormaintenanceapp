@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Corridor Hill",
+    "slug": "corridor-maintenance-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#f4f6f9",
+    "primaryColor": "#143c5c",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "za.ac.tut.corridormaintenance",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "za.ac.tut.corridormaintenance",
+      "supportsTablet": true
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Corridor Hill needs access to your photos so you can attach pictures of the maintenance issue."
+        }
+      ],
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ad436ee4-409f-4b9f-b2eb-4d94851bbe2a"
+      }
+    },
+    "owner": "mduvauyinkingas-team"
+  }
+}

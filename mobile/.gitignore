@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native build output (created only by `npx expo prebuild` / EAS builds)
+android/
+ios/
+
+# Metro / bundler caches
+.metro-health-check*
+metro.config.js.bak
+
+# Logs & OS noise
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+.DS_Store
+Thumbs.db
+
+# Local secrets — never commit real credentials
+.env
+.env.*
+*.key.json
+serviceAccount*.json
