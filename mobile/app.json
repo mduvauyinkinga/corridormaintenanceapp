@@ -13,7 +13,8 @@
     "android": {
       "package": "za.ac.tut.corridormaintenance",
       "permissions": [
-        "android.permission.INTERNET"
+        "android.permission.INTERNET",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "ios": {
@@ -28,6 +29,12 @@
         }
       ],
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ad436ee4-409f-4b9f-b2eb-4d94851bbe2a"
+      }
+    },
+    "owner": "mduvauyinkingas-team"
   }
 }

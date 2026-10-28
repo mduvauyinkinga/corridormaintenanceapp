@@ -16,6 +16,8 @@ const config = {
   // "pg" (real PostgreSQL, default) or "pglite" (zero-install in-memory
   // Postgres for local dev/testing - no external database needed).
   databaseDriver: process.env.DATABASE_DRIVER || "pg",
+  // "pg" (real PostgreSQL, required for mobile app auth) or undefined for Firebase-only mode
+  // Frontend now uses Firebase Auth + Firestore - no database driver needed for frontend
   jwtSecret: process.env.JWT_SECRET || "",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
   corsOrigin: process.env.CORS_ORIGIN || "*",
@@ -38,11 +40,15 @@ const config = {
   // Base URL of the website (where reset-password.html lives). Used to build
   // the reset link emailed to residents. Override for production.
   frontendUrl: process.env.FRONTEND_URL || "http://localhost:4000",
+  // NOTE: Frontend Firebase settings are in ../js/config.js
+  // This server no longer needs PostgreSQL connection strings for frontend operations
 };
 
 // Throw a clear error when a required variable is missing.
 export function validateConfig() {
   const missing = [];
+  // Only validate DATABASE_URL if using pg driver (for mobile app auth)
+  // Frontend uses Firebase, so DATABASE_URL is optional for Firebase-only mode
   if (config.databaseDriver === "pg" && !config.databaseUrl) missing.push("DATABASE_URL");
   if (config.databaseDriver === "pglite" && !config.jwtSecret) missing.push("JWT_SECRET");
   if (config.databaseDriver === "pg" && !config.jwtSecret) missing.push("JWT_SECRET");

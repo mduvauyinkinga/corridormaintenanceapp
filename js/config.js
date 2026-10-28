@@ -1,26 +1,37 @@
 /**
  * config.js (site)
  * ------------------------------------------------------------------
- * Environment configuration for the static website. Loaded as a plain
- * (non-module) script BEFORE the ES modules on every page, so
- * window.__CORRIDOR_API_BASE__ is always defined when js/api.js runs.
+ * Environment configuration for the static website.
+ * Loaded as a plain (non-module) script BEFORE the ES modules on every page,
+ * so window.__FIR_CONFIG__ is always defined when js/api.js runs.
  *
- * - Local development (Live Server / python -m http.server) -> localhost API.
- * - Anywhere else (GitHub Pages) -> the production API URL below.
- *
- * ⚠️ EDIT PROD_API_BASE the first time you deploy the API to Render:
- * replace the placeholder with your real Render service URL, e.g.
- *   https://corridor-maintenance-api.onrender.com
+ * ⚠️ THIS FILE NOW CONFIGURES FIREBASE INSTEAD OF A LOCAL/REMOTE API BASE.
+ * Replace the Firebase config values with your own project's settings.
  */
-(function () {
-  var PROD_API_BASE = "https://corridor-maintenance-api.onrender.com";
 
-  var host = window.location.hostname;
-  var isLocal =
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host === "" || // file:// pages
-    host === "[::1]";
+// Firebase configuration - replace with your Firebase project settings
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-  window.__CORRIDOR_API_BASE__ = isLocal ? "http://localhost:4000" : PROD_API_BASE;
-})();
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBc2abd0k9MHEi4P0mBTdCQ3Bg6gdZVj64",
+  authDomain: "corridormaintenanceapp.firebaseapp.com",
+  projectId: "corridormaintenanceapp",
+  storageBucket: "corridormaintenanceapp.firebasestorage.app",
+  messagingSenderId: "510490645459",
+  appId: "1:510490645459:web:d5c9636d0edf0d99771526",
+  measurementId: "G-H0E28XJ3GD"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+// Initialize Firebase app - will be initialized in api.js
+window.__FIREBASE_APP__ = null;
+
+// Export for use by other modules
+export const FIREBASE_CONFIG = window.__FIR_CONFIG__;
