@@ -47,7 +47,7 @@ services:
       - key: MANAGER_EMAIL
         sync: false
       - key: MANAGER_PASSWORD
-        generateValue: true
+        generateValue: false
 
 databases:
   - name: corridor-postgres
