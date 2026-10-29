@@ -1,4 +1,0 @@
-(node:14888) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/Mduva/Documents/WEBSITES/Corridor%20Maintenance%20App/serve-local.js is not specified and it doesn't parse as CommonJS.
-Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
-To eliminate this warning, add "type": "module" to \\?\C:\Users\Mduva\package.json.
-(Use `node --trace-warnings ...` to show where the warning was created)
