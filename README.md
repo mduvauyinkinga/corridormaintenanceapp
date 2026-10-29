@@ -5,7 +5,7 @@ Residence. Three pieces ship from this repository:
 
 1. **Website** — static HTML5/CSS3/Vanilla JS (ES6 Modules), no
    frameworks, no build tools. Hosted on **GitHub Pages**.
-2. **API** — self-coded **Express + PostgreSQL** backend (`server/`)
+2. **API** — self-coded backend (`server/`)
    with JWT auth and role-based access. Hosted on **Render** (see
    `render.yaml`).
 3. **Mobile app** — **Expo / React Native** client (`mobile/`),
@@ -20,7 +20,7 @@ Residence. Three pieces ship from this repository:
 - Website: HTML5, CSS3, Vanilla JS (ES6 Modules).
 - API: Node.js (ESM), Express 4, `pg`, `jsonwebtoken`, `bcryptjs`,
   `helmet`, `express-rate-limit`.
-- Database: PostgreSQL (Render Postgres / Neon / Supabase / local).
+- Database: PostgreSQL (local).
 - Mobile: Expo SDK 57, React Navigation.
 
 ---
@@ -76,8 +76,8 @@ Residence. Three pieces ship from this repository:
 ├── assets/               images, icons
 ├── server/               Express API (see below)
 ├── mobile/               Expo app (see below)
-├── archive/              legacy Firebase files & one-time tools — never deployed
-├── render.yaml           Render blueprint (API + Postgres)
+├── archive/              legacy Firebase files & one-time tools — never deployed (Firebase only)
+├── render.yaml           Firebase blueprint (API + Postgres)
 └── .github/workflows/deploy-site.yml   Pages deployment (site files only)
 ```
 
@@ -91,7 +91,7 @@ Residence. Three pieces ship from this repository:
 cd server
 copy .env.example .env    # then edit values (see below)
 npm install
-npm run dev               # http://localhost:4000
+npm run dev               # http://localhost:8080
 ```
 
 `.env` values for local development (zero-install database):
@@ -121,7 +121,7 @@ python -m http.server 8080   # or VS Code "Live Server"
 ```
 
 Open `http://localhost:8080`. `js/config.js` automatically points the
-site at `http://localhost:4000` when running locally.
+site at `http://localhost:8080` when running locally.
 
 ### 3. Mobile
 
@@ -140,8 +140,7 @@ $env:EXPO_PUBLIC_API_BASE_URL="http://<your-PC-LAN-IP>:4000"; npm start
 ### API → Render
 
 1. Push the repo to GitHub.
-2. Render Dashboard → **New → Blueprint** → select the repo
-   (`render.yaml` defines the API service + free Postgres).
+2. Ensure Firebase project is configured with your Firebase credentials.
 3. In the service environment settings set `CORS_ORIGIN` to your
    GitHub Pages URL (`https://<username>.github.io`) and fill in
    `MANAGER_EMAIL` / `MANAGER_PASSWORD` (8+ characters).
@@ -165,7 +164,7 @@ npx eas build --profile preview --platform android   # internal APK
 npx eas build --profile production --platform android
 ```
 
-Set `EXPO_PUBLIC_API_BASE_URL=https://<render-service>.onrender.com`
+Set `EXPO_PUBLIC_API_BASE_URL=https://<your-firebase-project>.firebaseapp.com`
 for production builds (EAS env var or `eas.json`).
 
 ---
@@ -270,7 +269,7 @@ Complaints never pile up in the management queue forever. A scheduled job
 3. Complaints with a pending reopen request (`reopen_requested = TRUE`)
    are never archived or deleted.
 
-Both knobs live in `server/.env` (see `.env.example`) and `render.yaml`.
+Both knobs live in `server/.env` (see `.env.example`).
 Management can inspect or trigger the job manually:
 
 ```

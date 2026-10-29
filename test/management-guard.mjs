@@ -149,7 +149,7 @@ globalThis.document = {
 
 const redirects = [];
 globalThis.window = {
-  __CORRIDOR_API_BASE__: "http://localhost:4000",
+  __CORRIDOR_API_BASE__: "http://localhost",
   location: {
     pathname: "/management.html",
     search: "",

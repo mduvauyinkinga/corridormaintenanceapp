@@ -1,11 +1,10 @@
-# Render blueprint — deploys the API + PostgreSQL for the Corridor
-# Hill Maintenance System.
+# Firebase Configuration
 #
 # Setup:
 #   1. Push this repo to GitHub.
-#   2. Render Dashboard -> New -> Blueprint -> pick this repo.
-#   3. After the first deploy, copy the service URL (e.g.
-#      https://corridor-api.onrender.com) into js/config.js (PROD_API_BASE)
+# Firebase Configuration
+# Firebase Configuration
+# Firebase configuration settings
 #      and set CORS_ORIGIN below to your GitHub Pages URL.
 services:
   - type: web
@@ -32,7 +31,7 @@ services:
       # EDIT THIS to your GitHub Pages URL before first deploy —
       # production refuses to boot with CORS_ORIGIN=*.
       - key: CORS_ORIGIN
-        value: https://YOUR-USERNAME.github.io
+        value: https://mduvauyinkinga.github.io
       - key: ALLOWED_DOMAIN
         value: "@tut4life.ac.za"
       # Complaint retention: archive Completed/Cancelled after 14 days,

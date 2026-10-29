@@ -5,15 +5,14 @@
 /**
  * api.js
  * -----------------------------------------------------------------
- * Thin HTTP client for the self-coded backend (replaces the Firebase
- * SDK for auth/data calls).
+ * Firebase Firestore client for the Corridor Maintenance App.
  *
  * - Stores the login token + cached user in localStorage.
- * - Wraps fetch with JSON parsing, the Authorization header, and
- *   friendly errors (the server returns { error } on failure).
+ * - Wraps Firebase Firestore operations for data storage.
+ * - resolvePhotoURL handles Firebase Storage URLs and relative paths.
  *
- * For production, set window.__CORRIDOR_API_BASE__ before this module
- * loads (e.g. in index.html) or edit the fallback below.
+ * For production, ensure Firebase is initialized (e.g. in index.html)
+ * before this module loads.
  */
 const TOKEN_KEY = "corridor_firebase_token";
 const USER_KEY = "corridor_firebase_user";
@@ -149,11 +148,11 @@ export async function api(collection, method, docId = null, data = null) {
  */
 
 /**
- * Resolve a photo URL returned by the backend. The server stores and
- * returns relative paths ("/api/complaints/:id/photos/:pid") so they
- * work on any host — the browser needs the API origin prefixed when the
+ * Resolve a photo URL returned by the backend/Storage.
+ * The server stores and returns relative paths ("/api/complaints/:id/photos/:pid")
+ * or Firebase Storage URLs. The browser needs the API origin prefixed when the
  * page is not served from the same origin. Absolute URLs pass through.
- * Also handles Firebase Storage URLs which are already absolute.
+ */
  */
 export function resolvePhotoURL(url) {
   if (!url) return url;

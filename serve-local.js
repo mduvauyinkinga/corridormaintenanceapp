@@ -1,7 +1,7 @@
 // Temporary local dev static server for the Corridor Maintenance website.
 // Run:  node serve-local.js   (from the repo root)
 // Then open: http://localhost:8080
-// Requires the backend API to be running on http://localhost:4000 (npm run dev in server/).
+// Requires Firebase initialization for backend operations.
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -50,7 +50,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`[serve-local] Frontend: http://localhost:${PORT}`);
-  console.log(`[serve-local] Make sure backend is running: http://localhost:4000`);
+  console.log(`[serve-local] Ensure Firebase is configured for backend operations`);
 });
 
 server.on("error", (err) => {

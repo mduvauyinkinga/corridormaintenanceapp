@@ -1,6 +1,27 @@
 /**
  * services/api.js
  * ------------------------------------------------------------------
+ * Firebase Auth + Firestore client for the Corridor Maintenance App
+ * (mobile). Replaces the self-coded Express + PostgreSQL backend.
+ *
+ * - Uses Firebase Auth for session management via AsyncStorage.
+ * - Uses Firebase Firestore for data storage (collections/documents).
+ * - Uses Firebase Storage for photoURL handling.
+ *
+ * Mirrors js/api.js on the web platform.
+ */
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
+import storage from "@react-native-firebase/storage";
+
+/** The stored login token, or null. */
+export function getToken() {
+  return AsyncStorage.getItem(TOKEN_KEY);
+}
+/**
+ * services/api.js
+ * ------------------------------------------------------------------
  * Thin HTTP client for the self-coded backend (replaces the Firebase
  * SDK for auth calls in the mobile app). Mirrors js/api.js on the web.
  *
@@ -17,7 +38,8 @@
  */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-let Constants = null;
+/** Error class for Firebase auth/firestore operations. */
+export class ApiError extends Error {
 try {
   Constants = require("expo-constants").default || require("expo-constants");
 } catch (e) {
@@ -42,12 +64,7 @@ const API_BASE = resolveApiBase();
 const TOKEN_KEY = "corridor_token";
 const USER_KEY = "corridor_user";
 
-/** Exported for diagnostics (connection-error message shows the target). */
-export function getApiBase() {
-  return API_BASE;
-}
-
-/** Allowed email domain for resident registration (server enforces too). */
+/** The stored login token, or null. */
 export const ALLOWED_DOMAIN = "@tut4life.ac.za";
 
 /** The stored login token, or null. */

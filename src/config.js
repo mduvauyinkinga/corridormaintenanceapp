@@ -39,7 +39,7 @@ const config = {
 
   // Base URL of the website (where reset-password.html lives). Used to build
   // the reset link emailed to residents. Override for production.
-  frontendUrl: process.env.FRONTEND_URL || "http://localhost:4000",
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:8080",
   // NOTE: Frontend Firebase settings are in ../js/config.js
   // This server no longer needs PostgreSQL connection strings for frontend operations
 };
