@@ -28,3 +28,16 @@ Thumbs.db
 .env.*
 *.key.json
 serviceAccount*.json
+
+# Log files — not needed in repo
+server-out.log
+server-err.log
+frontend-err.log
+frontend-out.log
+
+# PGlite database — runtime database data, not source code
+server/.pglite-data
+
+# Personal documents — not part of the web app source
+Full Presentation.pdf
+"Corridor Hill Residence Maintainance Website.docx"
