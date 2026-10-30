@@ -51,3 +51,21 @@ export async function sendPasswordResetEmail(to, resetUrl) {
   });
   return { devMode: false, message: "Reset email sent" };
 }
+
+/** Quick smoke test: send a Mailtrap test email. */
+export async function sendTestEmail(to) {
+  const transport = getTransporter();
+  if (!transport) {
+    throw new Error(
+      "SMTP not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS (and SMTP_PORT)."
+    );
+  }
+  const info = await transport.sendMail({
+    from: `"Corridor Maintenance" <${config.smtpFrom || config.smtpUser}>`,
+    to,
+    subject: "Mailtrap connection test",
+    text: "This is a test e-mail message from the Corridor Maintenance API.",
+  });
+  console.log("Message sent: %s", info.messageId);
+  return info;
+}
