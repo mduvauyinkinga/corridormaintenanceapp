@@ -1,27 +1,6 @@
 /**
  * services/api.js
  * ------------------------------------------------------------------
- * Firebase Auth + Firestore client for the Corridor Maintenance App
- * (mobile). Replaces the self-coded Express + PostgreSQL backend.
- *
- * - Uses Firebase Auth for session management via AsyncStorage.
- * - Uses Firebase Firestore for data storage (collections/documents).
- * - Uses Firebase Storage for photoURL handling.
- *
- * Mirrors js/api.js on the web platform.
- */
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import firestore from "@react-native-firebase/firestore";
-import auth from "@react-native-firebase/auth";
-import storage from "@react-native-firebase/storage";
-
-/** The stored login token, or null. */
-export function getToken() {
-  return AsyncStorage.getItem(TOKEN_KEY);
-}
-/**
- * services/api.js
- * ------------------------------------------------------------------
  * Thin HTTP client for the self-coded backend (replaces the Firebase
  * SDK for auth calls in the mobile app). Mirrors js/api.js on the web.
  *
@@ -38,12 +17,15 @@ export function getToken() {
  */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-/** Error class for Firebase auth/firestore operations. */
-export class ApiError extends Error {
+/**
+ * The expo-constants module, or null when it is not installed.
+ * Kept optional so the app works with env-var / app.config configuration alone.
+ */
+let Constants = null;
 try {
   Constants = require("expo-constants").default || require("expo-constants");
 } catch (e) {
-  Constants = null; // expo-constants not installed — env var + default still work.
+  /* expo-constants not installed - env var + default still work. */
 }
 
 /**
@@ -64,7 +46,7 @@ const API_BASE = resolveApiBase();
 const TOKEN_KEY = "corridor_token";
 const USER_KEY = "corridor_user";
 
-/** The stored login token, or null. */
+/** The email domain suffix allowed to sign up. */
 export const ALLOWED_DOMAIN = "@tut4life.ac.za";
 
 /** The stored login token, or null. */
@@ -154,7 +136,7 @@ export async function api(path, { method = "GET", body, auth = true } = {}) {
 /**
  * Resolve a photo URL returned by the backend. The server stores and
  * returns relative paths ("/api/complaints/:id/photos/:pid") so they
- * work on any host — React Native images need the API origin prefixed.
+ * work on any host - React Native images need the API origin prefixed.
  * Absolute URLs (http:, data:) pass through unchanged.
  * Web equivalent: resolvePhotoURL in js/api.js.
  */

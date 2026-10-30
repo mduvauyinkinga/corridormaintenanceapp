@@ -11,7 +11,6 @@ services:
     name: corridor-maintenance-api
     runtime: node
     plan: free
-    rootDir: server
     buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health

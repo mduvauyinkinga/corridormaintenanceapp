@@ -153,7 +153,6 @@ export async function api(collection, method, docId = null, data = null) {
  * or Firebase Storage URLs. The browser needs the API origin prefixed when the
  * page is not served from the same origin. Absolute URLs pass through.
  */
- */
 export function resolvePhotoURL(url) {
   if (!url) return url;
   // If it's an absolute URL (has protocol like http:// or firebase.storage), pass through
